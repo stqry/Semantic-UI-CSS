@@ -76,7 +76,9 @@ $.api = $.fn.api = function(parameters) {
         element         = this,
         context         = $context[0],
         instance        = $module.data(moduleNamespace),
-        module
+        module,
+
+        cacheKey
       ;
 
       module = {
@@ -170,7 +172,6 @@ $.api = $.fn.api = function(parameters) {
         },
 
         query: function() {
-
           if(module.is.disabled()) {
             module.debug('Element is disabled API request aborted');
             return;
@@ -240,10 +241,11 @@ $.api = $.fn.api = function(parameters) {
 
           module.debug('Querying URL', ajaxSettings.url);
           module.verbose('Using AJAX settings', ajaxSettings);
-          if(settings.cache === 'local' && module.read.cachedResponse(url)) {
+          cacheKey = JSON.stringify(ajaxSettings.data);
+          if(settings.cache === 'local' && module.read.cachedResponse(cacheKey)) {
             module.debug('Response returned from local cache');
             module.request = module.create.request();
-            module.request.resolveWith(context, [ module.read.cachedResponse(url) ]);
+            module.request.resolveWith(context, [ module.read.cachedResponse(cacheKey) ]);
             return;
           }
 
@@ -532,8 +534,8 @@ $.api = $.fn.api = function(parameters) {
           request: {
             done: function(response, xhr) {
               module.debug('Successful API Response', response);
-              if(settings.cache === 'local' && url) {
-                module.write.cachedResponse(url, response);
+              if(settings.cache === 'local' && cacheKey) {
+                module.write.cachedResponse(cacheKey, response);
                 module.debug('Saving server response locally', module.cache);
               }
               settings.onSuccess.call(context, response, $module, xhr);

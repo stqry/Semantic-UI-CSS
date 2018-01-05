@@ -348,8 +348,6 @@
   line-height: 1em;
   white-space: normal;
   outline: 0;
-  -webkit-transform: rotateZ(0deg);
-          transform: rotateZ(0deg);
   min-width: 14em;
   min-height: 2.71428571em;
   background: #FFFFFF;

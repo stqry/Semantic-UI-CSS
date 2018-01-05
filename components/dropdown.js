@@ -496,7 +496,7 @@ $.fn.dropdown = function(parameters) {
             ? callback
             : function(){}
           ;
-          if( module.is.active() ) {
+          if( module.is.visible() ) {
             module.debug('Hiding dropdown');
             if(settings.onHide.call(element) !== false) {
               module.animate.hide(function() {
@@ -678,6 +678,20 @@ $.fn.dropdown = function(parameters) {
               : module.get.query(),
             afterFiltered = function() {
               if(module.is.multiple()) {
+                // Make sure that the selected values are marked active
+                // in the dropdown list so that they get hidden when filterActive()
+                // is called underneath:
+                var values = module.get.values();
+                if (typeof values === 'object') {
+                  var selector = [],
+                      i = 0;
+                  for (; i < values.length; i++) {
+                    selector.push('[data-value="' + values[i] + '"]');
+                  }
+                  $item.filter(selector.join(','))
+                    .addClass(className.active)
+                  ;
+                }
                 module.filterActive();
               }
               if(query || (!query && module.get.activeItem().length == 0)) {
