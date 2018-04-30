@@ -1990,7 +1990,7 @@ $.fn.dropdown = function(parameters) {
                 module.debug('Maximum selection count reached');
                 if(settings.useLabels) {
                   $item.addClass(className.filtered);
-                  module.add.message(message.maxSelections);
+                  // module.add.message(message.maxSelections);
                 }
                 return true;
               }
