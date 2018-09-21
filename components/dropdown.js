@@ -1015,8 +1015,9 @@ $.fn.dropdown = function(parameters) {
                 if(!itemActivated && !pageLostFocus) {
                   if(settings.forceSelection) {
                     module.forceSelection();
+                  } else {
+                    module.hide();
                   }
-                  module.hide();
                 }
               }
               willRefocus = false;
