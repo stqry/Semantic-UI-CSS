@@ -738,7 +738,7 @@ $.fn.dropdown = function(parameters) {
                   module.filterItems(searchTerm);
                 }
                 afterFiltered();
-              });
+              }, true);
             }
             else {
               module.error(error.noAPI);
@@ -750,9 +750,10 @@ $.fn.dropdown = function(parameters) {
           }
         },
 
-        queryRemote: function(query, callback) {
+        queryRemote: function(query, callback, fromFilter) {
           var
             apiSettings = {
+              fromFilter: !! fromFilter,
               errorDuration : false,
               cache         : 'local',
               throttle      : settings.throttle,
